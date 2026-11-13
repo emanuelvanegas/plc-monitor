@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+        body {
+            background-color: #F7F7F5;
+            color: #1A3C2B;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .font-tabular {
+            font-variant-numeric: tabular-nums;
+        }
+        button:focus-visible, select:focus-visible, input:focus-visible {
+            outline: 2px solid #1A3C2B;
+            outline-offset: 3px;
+        }
+        .stale-reading { opacity: .55; }
+        dialog {
+            width: min(560px, calc(100vw - 32px));
+            max-height: calc(100vh - 64px);
+            padding: 24px;
+            border: 1px solid #DADDD5;
+            border-radius: 4px;
+            background: #FFFFFF;
+            color: #1A3C2B;
+        }
+        dialog::backdrop { background: rgb(26 60 43 / .25); }
+        input, select { padding: 8px 12px; border: 1px solid #DADDD5; border-radius: 4px; font: inherit; background: #FFFFFF; }
+        .device-item.active { background-color: #E8F3E8; border-left: 3px solid #1A3C2B; }
+        .device-item { border-left: 3px solid transparent; }
+        .device-item span { overflow-wrap: anywhere; }
+        .metric-value { font-size: clamp(26px, 2.8vw, 38px); overflow-wrap: anywhere; }
+        #device-detail { scroll-margin-top: 80px; }
+        #device-detail > div:first-child > div:first-child > div:first-child { flex-wrap: wrap; }
+        #device-detail > div:first-child { flex-wrap: wrap; }
+        #chart-shell { min-width: 0; scroll-margin-top:80px; }
+        #chart-shell > div:first-child { flex-wrap: wrap; gap: 8px; }
+        #config-dialog { width: min(760px, calc(100vw - 32px)); }
+        #config-dialog input, #config-dialog select { min-width: 0; width: 100%; }
+        #config-dialog input[type=radio] { width: auto; }
+        .variable-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+        .variable-grid label { display:flex; flex-direction:column; gap:6px; font-size:12px; }
+        button { min-height:40px; }
+        @media (max-width:1024px) { #device-list { max-height:260px; } #device-detail { width:100%; } }
+        @media (max-width:600px) { .variable-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } #metrics-container { grid-template-columns:1fr; } }
+        @media (max-width: 1024px) {
+            #main-layout { flex-direction: column; }
+            #sidebar { width: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+#app-message { margin: 16px 24px 0; padding: 12px 16px; border: 1px solid #DADDD5; border-radius: 4px; font-size: 14px; }
+#form-error { color: #A3302A; font-size: 14px; }
+[hidden] { display: none !important; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+#device-detail { min-width: 0; }
+
+.trend-toolbar, .trend-actions { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.trend-toolbar { justify-content:space-between; gap:12px; }
+.trend-period-label { display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-size:12px; color:#62685F; }
+.trend-period-label select { font-size:12px; color:#1A3C2B; min-height:40px; }
+.trend-actions button, .trend-custom button { padding:6px 10px; border:1px solid #DADDD5; border-radius:4px; font-size:12px; background:#FFF; color:#1A3C2B; }
+.trend-actions button:hover, .trend-custom button:hover { background:#EEF0EB; }
+.trend-actions #chart-zoom-in, .trend-actions #chart-zoom-out { min-width:40px; font-size:18px; }
+#chart-live[aria-pressed=true] { background:#E8F3E8; border-color:#A7C4AE; }
+.trend-custom { display:flex; flex-wrap:wrap; align-items:end; gap:10px; }
+.trend-custom label { display:flex; flex:1 1 180px; min-width:0; flex-direction:column; gap:6px; font-size:12px; color:#62685F; }
+.trend-custom input { width:100%; min-width:0; font-size:12px; color:#1A3C2B; }
+#chart-canvas { position:relative; height:276px; }
+#chart-canvas svg { display:block; width:100%; height:276px; overflow:hidden; touch-action:pan-y; cursor:crosshair; font:11px 'JetBrains Mono',monospace; color:#62685F; }
+#chart-canvas svg { fill:#62685F; }
+#chart-canvas svg:focus-visible { outline:2px solid #1A3C2B; outline-offset:2px; border-radius:2px; }
+#chart-canvas svg.dragging { cursor:grabbing; }
+.trend-caption { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px; font-size:11px; color:#62685F; }
+.trend-help { font-size:11px; line-height:1.6; color:#62685F; }
+.trend-tooltip { position:absolute; pointer-events:none; z-index:1; max-width:calc(100% - 8px); padding:10px 12px; border:1px solid #DADDD5; border-radius:4px; background:#FFFFFF; color:#1A3C2B; font:11px 'JetBrains Mono',monospace; box-shadow:0 2px 6px rgb(26 60 43 / .08); }
+.trend-tooltip span, .trend-tooltip strong { display:block; overflow-wrap:anywhere; }
+.trend-tooltip strong { margin-top:6px; font-size:14px; font-weight:600; }
+
+.trend-toolbar { align-items:flex-end; }
+.trend-filters { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:12px; flex:1 1 340px; min-width:0; }
+.trend-variable-label, .trend-filters .trend-period-label { display:flex; flex-direction:column; align-items:stretch; flex-wrap:nowrap; min-width:0; gap:6px; color:#62685F; font-size:11px; }
+.trend-filters select { width:100%; min-width:0; height:40px; color:#1A3C2B; font-size:12px; text-overflow:ellipsis; }

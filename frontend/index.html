@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#1A3C2B"><link rel="icon" href="data:,"><title>PLC Monitor</title><script type="module" src="/src/main.ts"></script></head>
+<body>
+    <div class="min-h-screen bg-paper flex flex-col">
+        <!-- Top Bar -->
+        <header class="bg-panels border-b border-borders px-16 md:px-32 py-12 flex items-center justify-between sticky top-0 z-40">
+            <div class="flex items-center gap-12">
+                <h1 class="font-heading font-semibold text-forest text-lg">PLC Monitor</h1>
+                <span class="text-secondary text-sm hidden sm:inline-block">Monitoreo industrial</span>
+            </div>
+            <div class="flex items-center gap-8">
+                <span class="bg-fill text-secondary font-mono text-xs px-8 py-4 rounded" id="mode-label">Conectando…</span>
+            </div>
+        </header>
+
+        <div id="app-message" role="status" hidden></div>
+        <div id="main-layout" class="flex-1 w-full max-w-[1440px] mx-auto p-16 md:p-24 flex gap-24">
+            <!-- Sidebar -->
+            <aside id="sidebar" class="w-[320px] flex-shrink-0 flex flex-col gap-16">
+                <!-- Fleet summary -->
+                <div class="bg-panels border border-borders rounded p-16">
+                    <h3 class="text-sm font-semibold text-forest mb-12">Resumen de equipos</h3>
+                    <div id="fleet-summary" class="flex flex-col gap-8 text-sm">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Device List -->
+                <div class="bg-panels border border-borders rounded flex flex-col flex-1 min-h-[400px]">
+                    <div class="p-12 border-b border-borders flex gap-8">
+                        <div class="relative flex-1">
+                            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="absolute left-[10px] top-1/2 -translate-y-1/2 text-secondary"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+                            <input type="text" id="search-input" aria-label="Buscar PLC" placeholder="Buscar PLC..." class="w-full pl-32 pr-12 py-6 text-sm bg-fill border-transparent focus:bg-panels">
+                        </div>
+                        <button id="btn-add" class="px-12 py-6 bg-panels border border-borders rounded text-forest hover:bg-fill flex items-center justify-center" title="Agregar PLC">
+                            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class=""><path d="M12 5v14M5 12h14"/></svg>
+                        </button>
+                    </div>
+                    <div id="device-list" class="flex-1 overflow-y-auto max-h-[calc(100vh-300px)]">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Detail Area -->
+            <main id="device-detail" class="flex-1 min-w-0 flex flex-col gap-24">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-16">
+                    <div>
+                        <div class="flex items-center gap-12 mb-4">
+                            <h2 id="det-name" class="font-heading font-semibold text-[28px] leading-tight text-forest">--</h2>
+                            <span id="det-badge" class="font-mono text-xs px-8 py-4 rounded flex items-center gap-4 bg-fill">
+                                <span class="w-2 h-2 rounded-full bg-secondary"></span>--
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-8 text-sm text-secondary flex-wrap">
+                            <span id="det-loc" class="font-medium">--</span>
+                            <span class="text-borders">|</span>
+                            <span id="det-last" class="font-mono text-xs">Última lectura: --</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-8 w-full md:w-auto">
+                        <button id="btn-config" class="flex-1 md:flex-none px-16 py-8 h-[40px] border border-borders rounded bg-panels text-forest hover:bg-fill transition-colors text-sm font-medium flex items-center justify-center gap-8">
+                            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-lg"><path d="M20 7h-9M5 7H4m16 10h-1M13 17H4"/><circle cx="8" cy="7" r="3"/><circle cx="16" cy="17" r="3"/></svg>
+                            Configurar
+                        </button>
+                        <button id="btn-pause" class="flex-1 md:flex-none px-16 py-8 h-[40px] border border-borders rounded bg-panels text-forest hover:bg-fill transition-colors text-sm font-medium flex items-center justify-center gap-8">
+                            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-lg"><path d="M7 4h3v16H7zM14 4h3v16h-3z"/></svg>
+                            Pausar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Metrics -->
+                <div id="metrics-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+                    <!-- Injected by JS -->
+                </div>
+
+                <!-- Chart & Info -->
+                <div class="flex flex-col lg:flex-row gap-16">
+                    <!-- Chart -->
+                    <div id="chart-shell" class="flex-1 bg-panels border border-borders rounded p-16 md:p-24 flex flex-col gap-16">
+                        <div class="flex justify-between items-center">
+                            <h3 id="chart-title" class="text-base font-semibold text-forest">Tendencia</h3>
+                            <span id="chart-unit" class="bg-fill rounded px-8 py-4 text-xs font-mono text-forest">--</span>
+                        </div>
+                        <div class="trend-toolbar">
+                            <div class="trend-filters">
+                            <label class="trend-variable-label" for="chart-variable">Variable
+                                <select id="chart-variable" aria-label="Variable de la gráfica"></select>
+                            </label>
+                            <label class="trend-period-label">Periodo
+                                <select id="chart-period" aria-label="Periodo del historial">
+                                    <option value="300000">Últimos 5 min</option>
+                                    <option value="900000">Últimos 15 min</option>
+                                    <option value="3600000">Última hora</option>
+                                    <option value="21600000">Últimas 6 horas</option>
+                                    <option value="86400000">Últimas 24 horas</option>
+                                    <option value="custom">Personalizado</option>
+                                </select>
+                            </label>
+                            </div>
+                            <div class="trend-actions" role="group" aria-label="Controles de la gráfica">
+                                <button id="chart-zoom-in" type="button" aria-label="Acercar gráfica" title="Acercar (+)">+</button>
+                                <button id="chart-zoom-out" type="button" aria-label="Alejar gráfica" title="Alejar (−)">−</button>
+                                <button id="chart-reset" type="button" title="Restablecer periodo (Inicio)">Restablecer</button>
+                                <button id="chart-live" type="button" aria-pressed="true">En vivo</button>
+                            </div>
+                        </div>
+                        <form id="chart-custom" class="trend-custom" hidden>
+                            <label>Desde · Bogotá<input id="chart-from" type="datetime-local" step="1" required></label>
+                            <label>Hasta · Bogotá<input id="chart-to" type="datetime-local" step="1" required></label>
+                            <button type="submit">Aplicar</button>
+                        </form>
+                        <p id="chart-error" class="text-xs text-red-dark" role="status" hidden></p>
+                        <div id="chart-canvas" class="w-full min-w-0"></div>
+                        <div class="trend-caption"><span id="chart-range" class="font-mono"></span><span id="chart-status"></span></div>
+                        <p class="trend-help">Rueda: zoom en el cursor · Arrastra: desplazar · Teclado: + / −, ← / →, Inicio</p>
+                        <p id="chart-quality" class="text-xs text-secondary"></p>
+                        <p class="trend-help">El CSV exporta todas las variables del PLC en el intervalo visible.</p>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="w-full lg:w-[280px] bg-panels border border-borders rounded p-16 md:p-24 flex flex-col gap-16">
+                        <h3 class="text-base font-semibold text-forest">Detalles de conexión</h3>
+                        <div class="flex flex-col gap-12 flex-1">
+                            <div class="flex justify-between items-center border-b border-fill pb-8">
+                                <span class="text-sm text-secondary">IP/Host</span>
+                                <span id="info-ip" class="font-mono text-xs text-forest">--</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-fill pb-8">
+                                <span class="text-sm text-secondary">Puerto</span>
+                                <span id="info-port" class="font-mono text-xs text-forest">--</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-fill pb-8">
+                                <span class="text-sm text-secondary">Intervalo</span>
+                                <span id="info-int" class="font-mono text-xs text-forest">--</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-fill pb-8">
+                                <span class="text-sm text-secondary">ID Unidad</span>
+                                <span id="info-uid" class="font-mono text-xs text-forest">--</span>
+                            </div>
+                            <div class="flex justify-between items-center pb-8">
+                                <span class="text-sm text-secondary">Adquisición</span>
+                                <span id="info-state" class="font-mono text-xs text-forest">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events -->
+                <div class="bg-panels border border-borders rounded p-16 md:p-24 flex flex-col gap-16">
+                    <div class="flex justify-between items-center">
+                        <h3 id="events-title" class="text-base font-semibold text-forest">Eventos del equipo</h3>
+                        <button id="btn-export" class="px-12 py-4 h-[32px] border border-borders rounded bg-panels text-forest hover:bg-fill transition-colors text-xs font-medium flex items-center justify-center gap-6">
+                            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class=""><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg>
+                            Exportar CSV
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead>
+                                <tr class="border-b border-borders text-secondary font-mono text-xs">
+                                    <th class="py-8 px-8 font-normal">MARCA DE TIEMPO</th>
+                                    <th class="py-8 px-8 font-normal">EQUIPO</th>
+                                    <th class="py-8 px-8 font-normal">SEVERIDAD</th>
+                                    <th class="py-8 px-8 font-normal">EVENTO</th>
+                                    <th class="py-8 px-8 font-normal">ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="events-body" class="font-mono text-xs">
+                                <!-- Injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Demo Strip Scoped -->
+                <div class="bg-panels border border-borders rounded p-12 flex flex-wrap justify-between items-center gap-16 text-sm mb-24">
+                    <div class="flex items-center gap-8">
+                        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-secondary"><path d="M9 3h6m-5 0v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 15h8"/></svg>
+                        <span id="simulation-scope" class="text-secondary font-medium">Simulación local para equipo seleccionado</span>
+                    </div>
+                    <div class="flex bg-fill p-4 rounded gap-4">
+                        <button id="btn-sim-norm" class="px-16 py-6 rounded text-forest font-medium text-xs transition-colors border border-transparent hover:border-borders">
+                            Normal
+                        </button>
+                        <button id="btn-sim-high" class="px-16 py-6 rounded text-forest font-medium text-xs transition-colors border border-transparent hover:border-borders">
+                            Umbral superado
+                        </button>
+                        <button id="btn-sim-off" class="px-16 py-6 rounded text-forest font-medium text-xs transition-colors border border-transparent hover:border-borders">
+                            Sin conexión
+                        </button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- Dialog -->
+        <dialog id="config-dialog" aria-labelledby="dlg-title">
+            <form id="config-form" class="flex flex-col gap-16">
+                <h2 id="dlg-title" class="font-heading text-xl font-semibold">Configurar PLC</h2>
+                <p class="text-sm text-secondary bg-fill p-12 rounded border border-borders">Configura la conexión Modbus TCP y los registros que quieres consultar en este equipo.</p>
+                <div class="grid grid-cols-2 gap-12">
+                    <label class="text-sm flex flex-col gap-6 col-span-2 md:col-span-1">Nombre<input id="cfg-name" maxlength="60" required></label>
+                    <label class="text-sm flex flex-col gap-6 col-span-2 md:col-span-1">Ubicación<input id="cfg-location" maxlength="60" required></label>
+                    <label class="text-sm flex flex-col gap-6">IP / Host<input id="cfg-ip" maxlength="253" required></label>
+                    <label class="text-sm flex flex-col gap-6">Puerto TCP<input id="cfg-port" type="number" min="1" max="65535" required></label>
+                    <label class="text-sm flex flex-col gap-6">ID de unidad<input id="cfg-unitId" type="number" min="0" max="255" required></label>
+                    <label class="text-sm flex flex-col gap-6">Timeout (s)<input id="cfg-timeout" type="number" min="0.1" max="30" step="0.1" required></label>
+                    <label class="text-sm flex flex-col gap-6">Intervalo (s)<input id="cfg-interval" type="number" min="0.1" step="0.1" max="60" required></label>
+                </div>
+                <section class="border-t border-borders pt-16 flex flex-col gap-12" aria-labelledby="variable-map-title">
+                    <h3 id="variable-map-title" class="text-sm font-semibold">Mapa de variables</h3>
+                    <p class="text-xs text-secondary">Consulta el mapa del equipo. Las direcciones empiezan en 0; float32 ocupa dos registros. La escala se aplica después de decodificar el dato.</p>
+                    <div id="cfg-variable-list" class="flex flex-col gap-12"></div>
+                    <button id="btn-add-variable" type="button" class="px-12 py-8 rounded border border-borders text-sm">Agregar variable</button>
+                </section>
+                <p id="form-error" role="alert" hidden></p>
+                <div class="flex justify-end gap-8 mt-8">
+                    <button id="btn-close-dlg" type="button" class="px-16 py-10 rounded border border-borders text-sm hover:bg-fill">Cancelar</button>
+                    <button type="submit" class="px-16 py-10 rounded bg-forest text-panels text-sm hover:opacity-90">Guardar equipo</button>
+                </div>
+            </form>
+        </dialog>
+    </div>
+</body></html>

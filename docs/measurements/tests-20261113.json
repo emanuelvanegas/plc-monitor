@@ -1,0 +1,176 @@
+{
+  "recorded_at": "2026-11-13T21:30:36.175780+00:00",
+  "verification_date": "2026-11-13",
+  "status": "passed",
+  "total_automated_cases": 29,
+  "rust": {
+    "command": "cargo test --locked",
+    "unit_passed": 7,
+    "integration_passed": 6,
+    "failed": 0,
+    "ignored_benchmarks": 1,
+    "listed_cases": {
+      "plc_monitor": [
+        "domain::tests::alarms_emit_only_on_transitions_and_equality_recovers",
+        "domain::tests::decodes_zero_signed_scaling_and_float_word_orders",
+        "domain::tests::validates_map_width_overlap_and_primary",
+        "schedule::tests::cancellation_during_reconnect_does_not_wait_for_the_next_tick",
+        "schedule::tests::normal_work_keeps_the_original_calendar_and_first_tick_is_immediate",
+        "schedule::tests::overruns_skip_the_backlog_and_return_to_the_calendar",
+        "schedule::tests::reconnect_backoff_is_capped_and_recovery_does_not_replay_old_ticks"
+      ],
+      "cadence": [
+        "measure_worker_cadence",
+        "slow_variables_remain_sequential_and_do_not_create_extra_connections",
+        "timeout_discards_the_connection_and_recovery_keeps_backoff_and_normal_cadence"
+      ],
+      "system": [
+        "historical_overview_covers_the_period_and_preserves_peaks_and_outages",
+        "input_registers_float_word_order_and_slow_responses_use_real_tcp",
+        "invalid_configuration_is_rejected_and_demo_routes_are_explicit",
+        "tcp_to_sqlite_api_and_recovery_are_independent_per_plc"
+      ]
+    }
+  },
+  "browser": {
+    "command": "npm --prefix frontend run test:e2e",
+    "stats": {
+      "total": 14,
+      "expected": 14,
+      "unexpected": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "ok": true
+    },
+    "duration_ms": 17918.222,
+    "cases": [
+      {
+        "file": "monitor.spec.ts",
+        "title": "adquisición TCP, aislamiento, recuperación, pausa, exportación y configuración",
+        "ok": true,
+        "duration_ms": 3063
+      },
+      {
+        "file": "monitor.spec.ts",
+        "title": "alta persistente y detección de una edición concurrente",
+        "ok": true,
+        "duration_ms": 797
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "la curva no se corta solo porque cambió la revisión administrativa",
+        "ok": true,
+        "duration_ms": 253
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "una lectura fallida conserva el hueco y lo identifica sin inventar valores",
+        "ok": true,
+        "duration_ms": 219
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "una pausa larga sin registros no se dibuja como una lectura continua",
+        "ok": true,
+        "duration_ms": 207
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "valores de unidades distintas no se unen en la misma curva",
+        "ok": true,
+        "duration_ms": 233
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "la rueda anima múltiples cuadros alrededor del cursor y el sondeo no restablece el zoom",
+        "ok": true,
+        "duration_ms": 3131
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "periodos, desplazamiento, rango personalizado y CSV usan el intervalo visible",
+        "ok": true,
+        "duration_ms": 1624
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "el resumen conserva picos y huecos, y al acercar pide muestras de detalle",
+        "ok": true,
+        "duration_ms": 1478
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "movimiento reducido, teclado y móvil mantienen controles utilizables",
+        "ok": true,
+        "duration_ms": 496
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "el cursor consulta muestras reales y la rueda fuera del área conserva el scroll de página",
+        "ok": true,
+        "duration_ms": 238
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "el selector muestra una sola variable, conserva el zoom y recuerda la elección de cada PLC",
+        "ok": true,
+        "duration_ms": 2398
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "una respuesta tardía de otra variable no reemplaza la tendencia elegida",
+        "ok": true,
+        "duration_ms": 1202
+      },
+      {
+        "file": "trend.spec.ts",
+        "title": "si se elimina la variable elegida vuelve a una variable disponible",
+        "ok": true,
+        "duration_ms": 1502
+      }
+    ]
+  },
+  "python": {
+    "command": "python3 -m unittest discover -s scripts -p 'test_soak_test.py' -v",
+    "passed": 2,
+    "failed": 0
+  },
+  "checks": {
+    "cargo_fmt": "passed",
+    "cargo_clippy_all_targets_deny_warnings": "passed",
+    "cargo_build_locked": "passed",
+    "typescript_and_vite_build": "passed"
+  },
+  "clean_copy": {
+    "generated_files_and_dependencies_excluded": true,
+    "frontend_fresh_npm_ci_offline": "passed",
+    "frontend_build": "passed",
+    "backend_cargo_build_offline_locked": "passed",
+    "note": "Se reutilizó la caché de descargas de dependencias; node_modules y target se generaron desde cero en una copia temporal. No se verificó una descarga desde Internet."
+  },
+  "github_actions": "configured_not_run_on_github",
+  "source_sha256": {
+    "Cargo.lock": "1e6a988cfcdf7a2bc9c94cbdc0f707fe8cb0c9fb6b72b54277e8ef0fe61177f4",
+    "Cargo.toml": "4397a96b0670e1008204dff7535a44694dd68f63b6cd2ddd4e497a5c40c3b5b7",
+    "frontend/package-lock.json": "cab913e89399a3657a813724aebfe76d487c119e8d7f8bb456ae047c1751374e",
+    "frontend/package.json": "2a4049eb3ff95f686661bb61a80eee730080f9e32d1930788b2b4e2d981a74a7",
+    "frontend/playwright.config.ts": "3ccca9edd0061fc107c3410ad95842236b2e261e5d3f8c5e425b8e5bbcc1368a",
+    "frontend/tests/monitor.spec.ts": "f5b119c7aab9f3d4cc868dbbc3a8f132cf58cfb216f3d478a83576d67c70f22f",
+    "frontend/tests/trend.spec.ts": "c3a4f935c67c8a27795af94254af66feb8a66e3b2eca04c815e10ea46f0b8ac4",
+    "rust-toolchain.toml": "d13306be0ecda81ce779baa290ffb417380d525928477f16200884b5169cca33",
+    "scripts/soak_test.py": "0dbf752c7748899a9d981ff8c7ab2861b07bad9bc5a67dd6cd23ea851a2b655f",
+    "scripts/test_soak_test.py": "b685e90538f3704c48f5a497eb917b67405170539e0ed96acef2d33f9add0d31",
+    "src/acquisition.rs": "cacfbe8d89a1a6a29691c55fff5390bf710d58f07ec39950b3b750a29af4c302",
+    "src/api.rs": "cfcbe7dd9a938eaf3b76057e23703b8de1beeab72410fc7d082358c0c2fedc88",
+    "src/demo.rs": "50e538252a4db593ca73a04dfbebbed3f34a849c72b88a0f582f0eeec93ef8a4",
+    "src/domain.rs": "3914d35dcb56b8032b331f0d9019afcb394ccb5dbaf73f8c4f90fa57aeccd05c",
+    "src/error.rs": "18ecbbe5cc71d482328de463c22877a0b6076672bf9e6aebbb25a0ef67d8455b",
+    "src/history.rs": "5a53712e2e251bd4927b944f1006516ce862353e59cdde7c4cb46e1c97ce977c",
+    "src/lib.rs": "ab420b6a129372f40058767815ac04ca8cf573714dae98ff71349c0d9c67729a",
+    "src/main.rs": "9932a87ec1e48733a895d31c7121e4c7fa4eda987993a1dd3cd9bc86bf2b77bc",
+    "src/schedule.rs": "60e2857f2f5b4048d919b14d4453027d523c6201fac05b49dfb782b35a5b40c5",
+    "src/storage.rs": "346b9d7977062362cddd590952b098fdb2ac5cb08e85f17f58465ff32406ca10",
+    "tests/cadence.rs": "d748ec81287addc87635d94311a6f091022778dc21bebd6fef325c13e2a4b68d",
+    "tests/system.rs": "eb5ace0178aebd8ba3704473aa9c47bcf7ea9607f1ded98c69c00ae6b12d5443"
+  }
+}

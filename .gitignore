@@ -1,0 +1,22 @@
+# Herramientas locales de diseño y navegador
+/.superdesign/
+/.playwright-mcp/
+
+# Compilación y dependencias
+/target/
+/data/
+/frontend/node_modules/
+/frontend/dist/
+/test-results/
+/playwright-report/
+*.db
+*.db-shm
+*.db-wal
+/reports/
+/scripts/__pycache__/
+
+# Configuración local y registros de ejecución
+.env
+.env.*
+!.env.example
+*.log

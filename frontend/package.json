@@ -1,0 +1,26 @@
+{
+  "name": "plc-monitor-panel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "check": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:report": "playwright show-report ../playwright-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0",
+    "@types/node": "26.6.6",
+    "autoprefixer": "10.6.2",
+    "postcss": "8.5.32",
+    "tailwindcss": "3.4.19",
+    "typescript": "7.0.2",
+    "vite": "8.3.8"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "5.3.0",
+    "@fontsource/space-grotesk": "5.3.0"
+  }
+}

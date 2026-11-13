@@ -1,0 +1,411 @@
+{
+  "source_report": "20261112T180314.322081Z",
+  "status": "passed",
+  "started_at": "2026-11-12T18:03:14.954723+00:00",
+  "finished_at": "2026-11-12T19:03:15.231692+00:00",
+  "measured_seconds": 3600.004198679002,
+  "platform": "Linux-6.18.55-2-cachyos-lts-x86_64-with-glibc2.44",
+  "build_profile": "release",
+  "binary_sha256": "9468550aa33021d114cfd8b4a175a5a1b5412e3848c5d56d527b675f85fe98b0",
+  "conditions": "3 PLC simulados, 3 variables por PLC, intervalo 1 s; Modbus TCP loopback, SQLite; API consultada por este script, sin navegador automatizado",
+  "poll_seconds": 5,
+  "metric_observations": 719,
+  "max_observed_poll_gap_seconds": 5.033935516003112,
+  "resources": {
+    "rss_first_mb": 10.234375,
+    "rss_last_mb": 10.26953125,
+    "rss_peak_mb": 11.734375,
+    "cpu_peak_percent_one_core": 0.5993815582276816,
+    "database_peak_mb_including_wal": 8.878662109375,
+    "cpu_average_percent_one_core": 0.2781599648234177
+  },
+  "rss_units": "MiB (source fields use names ending in _mb)",
+  "rss_quarters": [
+    {
+      "quarter": 1,
+      "observations": 180,
+      "mean_rss_mib": 9.854253472222222,
+      "min_rss_mib": 8.75390625,
+      "max_rss_mib": 11.40625
+    },
+    {
+      "quarter": 2,
+      "observations": 180,
+      "mean_rss_mib": 9.124978298611111,
+      "min_rss_mib": 8.23046875,
+      "max_rss_mib": 9.81640625
+    },
+    {
+      "quarter": 3,
+      "observations": 180,
+      "mean_rss_mib": 10.897764756944444,
+      "min_rss_mib": 9.25,
+      "max_rss_mib": 11.734375
+    },
+    {
+      "quarter": 4,
+      "observations": 179,
+      "mean_rss_mib": 10.40742842178771,
+      "min_rss_mib": 9.375,
+      "max_rss_mib": 10.84375
+    }
+  ],
+  "api_latencies": {
+    "health_ms": {
+      "observations": 719,
+      "median_ms": 0.8609770011389628,
+      "p95_nearest_rank_ms": 1.2070849988958798,
+      "max_ms": 4.170667998550925
+    },
+    "fleet_ms": {
+      "observations": 719,
+      "median_ms": 0.7810070019331761,
+      "p95_nearest_rank_ms": 1.1157889966852963,
+      "max_ms": 10.104377994139213
+    },
+    "history_ms": {
+      "observations": 120,
+      "median_ms": 3.3944675014936365,
+      "p95_nearest_rank_ms": 16.23779700457817,
+      "max_ms": 29.260855000757147
+    }
+  },
+  "exports": {
+    "demo-tank": {
+      "rows": 9864,
+      "good": 9720,
+      "failed": 144,
+      "duration_ms": 72.45542600139743
+    },
+    "demo-oven": {
+      "rows": 9720,
+      "good": 9720,
+      "failed": 0,
+      "duration_ms": 52.5091740055359
+    },
+    "demo-belt": {
+      "rows": 9837,
+      "good": 9708,
+      "failed": 129,
+      "duration_ms": 54.43783800001256
+    }
+  },
+  "database": {
+    "integrity": "ok",
+    "samples": [
+      {
+        "plc_id": "demo-belt",
+        "variable_id": "belt-motor",
+        "quality": "good",
+        "count": 3236
+      },
+      {
+        "plc_id": "demo-belt",
+        "variable_id": "belt-motor",
+        "quality": "timeout",
+        "count": 43
+      },
+      {
+        "plc_id": "demo-belt",
+        "variable_id": "belt-pieces",
+        "quality": "good",
+        "count": 3236
+      },
+      {
+        "plc_id": "demo-belt",
+        "variable_id": "belt-pieces",
+        "quality": "timeout",
+        "count": 43
+      },
+      {
+        "plc_id": "demo-belt",
+        "variable_id": "belt-speed",
+        "quality": "good",
+        "count": 3236
+      },
+      {
+        "plc_id": "demo-belt",
+        "variable_id": "belt-speed",
+        "quality": "timeout",
+        "count": 43
+      },
+      {
+        "plc_id": "demo-oven",
+        "variable_id": "oven-cycles",
+        "quality": "good",
+        "count": 3240
+      },
+      {
+        "plc_id": "demo-oven",
+        "variable_id": "oven-humidity",
+        "quality": "good",
+        "count": 3240
+      },
+      {
+        "plc_id": "demo-oven",
+        "variable_id": "oven-temperature",
+        "quality": "good",
+        "count": 3240
+      },
+      {
+        "plc_id": "demo-tank",
+        "variable_id": "tank-cycles",
+        "quality": "good",
+        "count": 3240
+      },
+      {
+        "plc_id": "demo-tank",
+        "variable_id": "tank-cycles",
+        "quality": "transport_error",
+        "count": 48
+      },
+      {
+        "plc_id": "demo-tank",
+        "variable_id": "tank-level",
+        "quality": "good",
+        "count": 3240
+      },
+      {
+        "plc_id": "demo-tank",
+        "variable_id": "tank-level",
+        "quality": "transport_error",
+        "count": 48
+      },
+      {
+        "plc_id": "demo-tank",
+        "variable_id": "tank-temperature",
+        "quality": "good",
+        "count": 3240
+      },
+      {
+        "plc_id": "demo-tank",
+        "variable_id": "tank-temperature",
+        "quality": "transport_error",
+        "count": 48
+      }
+    ],
+    "events": [
+      {
+        "plc_id": "demo-belt",
+        "kind": "connection_lost",
+        "count": 2
+      },
+      {
+        "plc_id": "demo-belt",
+        "kind": "connection_restored",
+        "count": 2
+      },
+      {
+        "plc_id": "demo-oven",
+        "kind": "connection_restored",
+        "count": 1
+      },
+      {
+        "plc_id": "demo-oven",
+        "kind": "threshold_exceeded",
+        "count": 1
+      },
+      {
+        "plc_id": "demo-oven",
+        "kind": "threshold_recovered",
+        "count": 1
+      },
+      {
+        "plc_id": "demo-tank",
+        "kind": "connection_lost",
+        "count": 1
+      },
+      {
+        "plc_id": "demo-tank",
+        "kind": "connection_restored",
+        "count": 2
+      },
+      {
+        "plc_id": "demo-tank",
+        "kind": "threshold_exceeded",
+        "count": 1
+      },
+      {
+        "plc_id": "demo-tank",
+        "kind": "threshold_recovered",
+        "count": 1
+      }
+    ],
+    "isolation": [
+      {
+        "during": "offline",
+        "affected": "demo-tank",
+        "other": "demo-oven",
+        "good_variables": 3,
+        "passed": true
+      },
+      {
+        "during": "offline",
+        "affected": "demo-tank",
+        "other": "demo-belt",
+        "good_variables": 3,
+        "passed": true
+      },
+      {
+        "during": "pause",
+        "affected": "demo-oven",
+        "other": "demo-tank",
+        "good_variables": 3,
+        "passed": true
+      },
+      {
+        "during": "pause",
+        "affected": "demo-oven",
+        "other": "demo-belt",
+        "good_variables": 3,
+        "passed": true
+      },
+      {
+        "during": "slow",
+        "affected": "demo-belt",
+        "other": "demo-tank",
+        "good_variables": 3,
+        "passed": true
+      },
+      {
+        "during": "slow",
+        "affected": "demo-belt",
+        "other": "demo-oven",
+        "good_variables": 3,
+        "passed": true
+      }
+    ],
+    "pauses": [
+      {
+        "plc_id": "demo-oven",
+        "samples_while_paused": 0,
+        "passed": true
+      }
+    ]
+  },
+  "actions": [
+    {
+      "plc_id": "demo-tank",
+      "scenario": "high",
+      "at_ms": 1794506955112,
+      "elapsed_seconds": 360.1576302760004,
+      "planned_seconds": 360.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-tank",
+      "scenario": "normal",
+      "at_ms": 1794507315045,
+      "elapsed_seconds": 720.0911076159973,
+      "planned_seconds": 720.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-tank",
+      "scenario": "offline",
+      "at_ms": 1794507675120,
+      "elapsed_seconds": 1080.166230607996,
+      "planned_seconds": 1080.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-tank",
+      "scenario": "normal",
+      "at_ms": 1794508035018,
+      "elapsed_seconds": 1440.0637082019966,
+      "planned_seconds": 1440.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-oven",
+      "scenario": "pause",
+      "at_ms": 1794508395111,
+      "elapsed_seconds": 1800.1567237080017,
+      "planned_seconds": 1800.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-oven",
+      "scenario": "resume",
+      "at_ms": 1794508755063,
+      "elapsed_seconds": 2160.108582572997,
+      "planned_seconds": 2160.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-belt",
+      "scenario": "slow",
+      "at_ms": 1794509115125,
+      "elapsed_seconds": 2520.1703024009985,
+      "planned_seconds": 2520.0,
+      "observed": true
+    },
+    {
+      "plc_id": "demo-belt",
+      "scenario": "normal",
+      "at_ms": 1794509475010,
+      "elapsed_seconds": 2880.0554658420006,
+      "planned_seconds": 2880.0,
+      "observed": true
+    }
+  ],
+  "unexpected_errors": [],
+  "final_plcs": [
+    {
+      "id": "demo-tank",
+      "connection": "connected",
+      "all_variables_good": true
+    },
+    {
+      "id": "demo-oven",
+      "connection": "connected",
+      "all_variables_good": true
+    },
+    {
+      "id": "demo-belt",
+      "connection": "connected",
+      "all_variables_good": true
+    }
+  ],
+  "independent_review": {
+    "csv_identity_quality_and_counts": true,
+    "sqlite_integrity_and_counts": true,
+    "failed_samples_within_injected_fault_and_12s_recovery_windows": true,
+    "backend_error_or_panic_lines": 0
+  },
+  "source_artifacts": {
+    "summary.json": {
+      "bytes": 26580,
+      "sha256": "3e62d379a64592d38c67fa55a11fad1e66f3e23a631e935c420ff66844fabd51"
+    },
+    "metrics.jsonl": {
+      "bytes": 4452527,
+      "sha256": "3a11f00deb2f9fbb9a44c83567a724bcf180ed10d7bb6408b2640ea30183317c"
+    },
+    "backend.log": {
+      "bytes": 1569121,
+      "sha256": "d0675badf80803a5883b233af6ef95dd04694666b9858289fa1b9a1fe159f5e9"
+    },
+    "monitor.db": {
+      "bytes": 5169152,
+      "sha256": "50f93bdaaca44ef96ea66c2154278f144169cb4266c4263fb70d83248165ef24"
+    },
+    "demo-tank.csv": {
+      "bytes": 930978,
+      "sha256": "7644ba631d1778ec95b9801a2ba3a3001ed5af24ddd5a3e176a184e7e8c40632"
+    },
+    "demo-oven.csv": {
+      "bytes": 923490,
+      "sha256": "d5be2936272d9fa05630f4bb100c57d27893bc4d62b0a518ce1a91910bcefc20"
+    },
+    "demo-belt.csv": {
+      "bytes": 934648,
+      "sha256": "40fd3a71b6fed69b44d11afaa97c7e1c3c9827a86293d96c15b38b544b076d77"
+    }
+  },
+  "limitations": [
+    "Una ejecución de una hora con tres PLC simulados y nueve variables; no mide capacidad máxima ni compatibilidad con hardware físico.",
+    "Los máximos de recursos son observados en muestras de cinco segundos; un ensayo no demuestra ausencia de fugas de memoria.",
+    "No se registró modelo de CPU ni memoria total de la máquina; no se extrapola rendimiento a otros equipos."
+  ]
+}
