@@ -13,6 +13,13 @@
             </div>
         </header>
 
+        <section id="browser-demo" class="browser-demo" aria-label="Acerca de esta demo" hidden>
+            <div><strong>Explora PLC Monitor</strong><p>Datos simulados en tu navegador. Tus cambios solo afectan a esta demo; no se conecta a equipos reales.</p></div>
+            <div class="browser-demo-actions">
+                <a href="https://github.com/emanuelvanegas/plc-monitor" target="_blank" rel="noopener noreferrer">Ver proyecto <span aria-hidden="true">↗</span></a>
+                <button id="btn-reset-demo" type="button">Reiniciar demo</button>
+            </div>
+        </section>
         <div id="app-message" role="status" hidden></div>
         <div id="main-layout" class="flex-1 w-full max-w-[1440px] mx-auto p-16 md:p-24 flex gap-24">
             <!-- Sidebar -->
@@ -201,7 +208,7 @@
         <dialog id="config-dialog" aria-labelledby="dlg-title">
             <form id="config-form" class="flex flex-col gap-16">
                 <h2 id="dlg-title" class="font-heading text-xl font-semibold">Configurar PLC</h2>
-                <p class="text-sm text-secondary bg-fill p-12 rounded border border-borders">Configura la conexión Modbus TCP y los registros que quieres consultar en este equipo.</p>
+                <p id="connection-description" class="text-sm text-secondary bg-fill p-12 rounded border border-borders">Configura la conexión Modbus TCP y los registros que quieres consultar en este equipo.</p>
                 <div class="grid grid-cols-2 gap-12">
                     <label class="text-sm flex flex-col gap-6 col-span-2 md:col-span-1">Nombre<input id="cfg-name" maxlength="60" required></label>
                     <label class="text-sm flex flex-col gap-6 col-span-2 md:col-span-1">Ubicación<input id="cfg-location" maxlength="60" required></label>

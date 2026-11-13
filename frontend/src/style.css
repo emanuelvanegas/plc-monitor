@@ -81,3 +81,13 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .trend-filters { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:12px; flex:1 1 340px; min-width:0; }
 .trend-variable-label, .trend-filters .trend-period-label { display:flex; flex-direction:column; align-items:stretch; flex-wrap:nowrap; min-width:0; gap:6px; color:#62685F; font-size:11px; }
 .trend-filters select { width:100%; min-width:0; height:40px; color:#1A3C2B; font-size:12px; text-overflow:ellipsis; }
+
+.browser-demo { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; width:calc(100% - 48px); max-width:1392px; margin:24px auto 0; padding:16px 20px; border:1px solid #DADDD5; border-left:3px solid #1A3C2B; border-radius:4px; background:#E8F3E8; }
+.browser-demo[hidden] { display:none; }
+.browser-demo strong { font:600 16px 'Space Grotesk',sans-serif; }
+.browser-demo p { margin-top:4px; max-width:680px; font-size:12px; line-height:1.6; color:#62685F; }
+.browser-demo-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+.browser-demo-actions a, .browser-demo-actions button { display:inline-flex; min-height:40px; align-items:center; justify-content:center; gap:8px; padding:8px 12px; border:1px solid #A7C4AE; border-radius:4px; background:white; font-size:12px; color:#1A3C2B; }
+.browser-demo-actions a:hover, .browser-demo-actions button:hover { background:#EEF0EB; }
+.browser-demo-actions a:focus-visible { outline:2px solid #1A3C2B; outline-offset:3px; }
+@media(max-width:600px) { .browser-demo { width:calc(100% - 32px); margin-top:16px; padding:16px; } }

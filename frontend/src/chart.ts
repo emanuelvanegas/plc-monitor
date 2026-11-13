@@ -1,5 +1,6 @@
 import type { HistoryResponse, Plc, Sample } from './types';
 import { buildTrend, type Trend, type TrendPoint } from './trend';
+import { browserDemo, request } from './data-source';
 
 interface Window { from: number; to: number }
 interface Dataset extends Window { response: HistoryResponse }
@@ -263,7 +264,7 @@ export class HistoryChart {
     this.setError('');
     try {
       const query = new URLSearchParams({ variable_id:variableId, from_ms:String(range.from), to_ms:String(range.to), limit:'2000' });
-      const response = await fetch(`/api/plcs/${encodeURIComponent(plcId)}/history?${query}`, { signal:controller.signal });
+      const response = await request(`/api/plcs/${encodeURIComponent(plcId)}/history?${query}`, { signal:controller.signal });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const body: HistoryResponse = await response.json();
       if (key !== this.key || controller.signal.aborted) return;
@@ -347,7 +348,7 @@ export class HistoryChart {
     node('chart-status').textContent = this.live ? '● En vivo' : this.fixed ? 'Periodo fijo' : 'Explorando historial';
     node<HTMLButtonElement>('chart-live').setAttribute('aria-pressed', String(this.live));
     const gapText = gaps.length ? ` · ${gaps.length} ${gaps.length === 1 ? 'intervalo sin muestras' : 'intervalos sin muestras'}${data?.aggregated ? ' dentro de franjas resumidas' : ' (franjas grises)'}` : '';
-    node('chart-quality').textContent = (data?.aggregated ? `Vista resumida · ${numeric.format(data.source_count ?? samples.length)} lecturas · picos conservados · acerca para ver el detalle` : 'Historial guardado por Rust · hora de Bogotá') + gapText;
+    node('chart-quality').textContent = (data?.aggregated ? `Vista resumida · ${numeric.format(data.source_count ?? samples.length)} lecturas · picos conservados · acerca para ver el detalle` : browserDemo ? 'Historial simulado en este navegador · hora de Bogotá' : 'Historial guardado por Rust · hora de Bogotá') + gapText;
     this.showTooltip();
   }
 

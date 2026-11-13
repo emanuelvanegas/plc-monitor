@@ -38,6 +38,10 @@ jobs:
         run: python3 -m unittest discover -s scripts -p 'test_soak_test.py' -v
       - name: Pruebas de navegador
         run: npm --prefix frontend run test:e2e
+      - name: Compilar demo de GitHub Pages
+        run: npm --prefix frontend run build:demo
+      - name: Probar simulación y demo sin backend
+        run: npm --prefix frontend run test:demo
       - name: Guardar reporte de navegador y evidencia de fallos
         if: ${{ always() }}
         uses: actions/upload-artifact@v7
@@ -46,5 +50,39 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            playwright-report-demo/
+            test-results-demo/
           if-no-files-found: ignore
           retention-days: 14
+
+  pages:
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm --prefix frontend ci
+      - run: npm --prefix frontend run build:demo
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: frontend/dist-demo
+      - name: Publicar demo
+        id: deployment
+        uses: actions/deploy-pages@v5

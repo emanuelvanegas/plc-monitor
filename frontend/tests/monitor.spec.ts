@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('adquisición TCP, aislamiento, recuperación, pausa, exportación y configuración', async ({page, request}) => {
   await page.goto('/');
+  await expect(page.locator('#browser-demo')).toBeHidden();
   await expect(page.locator('[data-device-id]')).toHaveCount(3);
   await expect(page.locator('#metrics-container')).toContainText('25,3');
   await page.locator('[data-device-id="demo-oven"]').click();

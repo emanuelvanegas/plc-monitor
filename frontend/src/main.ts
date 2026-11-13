@@ -4,6 +4,7 @@ import '@fontsource/jetbrains-mono/latin-400.css';
 import './style.css';
 import type { Config, Health, Plc, PlcEvent, Summary, Variable } from './types';
 import { HistoryChart } from './chart';
+import { browserDemo, request, exportCsv, resetBrowserDemo } from './data-source';
 
 const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const input = (id: string) => el<HTMLInputElement>(id);
@@ -23,7 +24,7 @@ const chart = new HistoryChart();
 const warning = (d: Plc) => Object.values(d.state.variables).some(v => v.alarm_active === true);
 
 async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(path, { ...options, headers: { 'content-type':'application/json', ...options.headers } });
+  const response = await request(path, { ...options, headers: { 'content-type':'application/json', ...options.headers } });
   const text = await response.text();
   let body: any;
   try { body = JSON.parse(text); } catch { body = { message:text || 'Respuesta no disponible' }; }
@@ -65,7 +66,7 @@ function renderList() {
 function renderBasic() {
   renderSummary();renderList();
   const d=selected();el('device-detail').hidden=!d;
-  el('mode-label').textContent=health?.demo?'Demo Modbus TCP':'Modbus TCP';
+  el('mode-label').textContent=browserDemo?'Demo en navegador':health?.demo?'Demo Modbus TCP':'Modbus TCP';
   if(!d)return;
   el('det-name').textContent=d.name;el('det-loc').textContent=`${d.location} · Modbus TCP`;
   el('det-last').textContent=d.state.last_success?`Última lectura correcta: ${time(d.state.last_success)}`:'Esperando la primera lectura';
@@ -83,7 +84,7 @@ function renderBasic() {
   el('info-ip').textContent=d.host;el('info-port').textContent=String(d.port);el('info-uid').textContent=String(d.unit_id);el('info-int').textContent=number(d.interval_ms/1000)+' s';
   el('info-state').textContent=d.paused?'Adquisición pausada':offline?'Sin conexión':d.state.connection==='connected'?'En ejecución':'Esperando comunicación';
   el('events-title').textContent=`Eventos · ${d.name}`;
-  el('simulation-scope').textContent=health?.demo_ids.includes(d.id)?`Simulación Modbus TCP · ${d.name}`:'Equipo configurado · lectura Modbus TCP';
+  el('simulation-scope').textContent=browserDemo?`PLC virtual · ${d.name}`:health?.demo_ids.includes(d.id)?`Simulación Modbus TCP · ${d.name}`:'Equipo configurado · lectura Modbus TCP';
   ['btn-sim-norm','btn-sim-high','btn-sim-off'].forEach(id=>{el<HTMLButtonElement>(id).disabled=busy||!health?.demo_ids.includes(d.id);});
   ['btn-config','btn-pause','btn-add'].forEach(id=>{el<HTMLButtonElement>(id).disabled=busy;});
 }
@@ -121,10 +122,10 @@ el('btn-pause').onclick=()=>void action(async()=>{const d=selected()!;await api(
 (['normal','high','offline'] as const).forEach((scenario,i)=>{
   el(['btn-sim-norm','btn-sim-high','btn-sim-off'][i]).onclick=()=>void action(async()=>{
     const d=selected()!;await api('/api/demo/plcs/'+encodeURIComponent(d.id)+'/scenario',{method:'PUT',body:JSON.stringify({scenario})});
-    message('Escenario aplicado al servidor Modbus. El recolector actualizará los datos al completar su siguiente lectura.');
+    message(browserDemo?'Escenario aplicado al PLC virtual. Verás el cambio en la siguiente lectura simulada.':'Escenario aplicado al servidor Modbus. El recolector actualizará los datos al completar su siguiente lectura.');
   });
 });
-el('btn-export').onclick=()=>{const d=selected();if(!d)return;const a=document.createElement('a');const range=chart.exportRange();a.href=url(d.id)+'/export.csv?'+new URLSearchParams({from_ms:String(range.from),to_ms:String(range.to)});a.download='';a.click();};
+el('btn-export').onclick=()=>{const d=selected();if(!d)return;const range=chart.exportRange();void exportCsv(url(d.id)+'/export.csv?'+new URLSearchParams({from_ms:String(range.from),to_ms:String(range.to)}),`plc-${d.id}-historial.csv`).catch(error=>message(String(error),true));};
 
 function defaultVariable(): Variable {return{id:crypto.randomUUID(),name:'Temperatura',register_type:'holding',address:0,data_type:'uint16',word_order:'ABCD',scale:.1,unit:'°C',high_limit:80,primary:true};}
 function syncVariables() {
@@ -158,11 +159,19 @@ el<HTMLFormElement>('config-form').onsubmit=async event=>{
   const submit=el<HTMLFormElement>('config-form').querySelector<HTMLButtonElement>('[type="submit"]')!;submit.disabled=true;
   try{
     const result=await api<Plc>(editing?url(editing.id):'/api/plcs',{method:editing?'PUT':'POST',body:JSON.stringify(editing?{...config,expected_revision:editing.revision}:config)});
-    selectedId=result.id;input('search-input').value='';el<HTMLDialogElement>('config-dialog').close();await refresh();message('Configuración guardada. La adquisición pertenece al backend Rust.');
+    selectedId=result.id;input('search-input').value='';el<HTMLDialogElement>('config-dialog').close();await refresh();message(browserDemo?'PLC virtual guardado en este navegador.':'Configuración guardada. La adquisición pertenece al backend Rust.');
   }catch(error){el('form-error').textContent=String(error);el('form-error').hidden=false;}
   finally{submit.disabled=false;}
 };
 
+if(browserDemo){
+  el('browser-demo').hidden=false;
+  el('connection-description').textContent='Configura un PLC virtual y sus variables. Estos datos solo se usan en la simulación de tu navegador.';
+  el('btn-reset-demo').onclick=()=>void action(async()=>{
+    await resetBrowserDemo();selectedId=null;input('search-input').value='';
+    await refresh();el<HTMLButtonElement>('chart-live').click();message('Demo reiniciada con los tres equipos de ejemplo.');
+  });
+}
 void refresh();
 setInterval(()=>{if(!document.hidden)void refresh();},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)void refresh();});

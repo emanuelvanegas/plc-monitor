@@ -8,6 +8,10 @@ Consulta variables en segundo plano, conserva su historial y revisa avisos, even
 
 [![Checks](https://github.com/emanuelvanegas/plc-monitor/actions/workflows/checks.yml/badge.svg)](https://github.com/emanuelvanegas/plc-monitor/actions/workflows/checks.yml)
 
+### [Abrir demo interactiva →](https://emanuelvanegas.github.io/plc-monitor/)
+
+Prueba el panel sin instalar nada: selecciona un PLC, explora sus variables, acerca la gráfica con la rueda y simula una interrupción. La demo de Pages genera datos en tu navegador; la aplicación local usa el backend Rust y Modbus TCP.
+
 ![Panel de PLC Monitor con equipos, variables, tendencia y eventos](docs/screenshots/desktop.png)
 
 <details>
@@ -17,7 +21,7 @@ Consulta variables en segundo plano, conserva su historial y revisa avisos, even
 
 </details>
 
-[Inicio rápido](#inicio-rápido) · [Desarrollo](#desarrollo) · [Pruebas](#pruebas) · [Resultados](#prueba-de-una-hora) · [Referencia técnica](docs/REFERENCIA.md)
+[Inicio rápido](#inicio-rápido) · [Desarrollo](#desarrollo) · [Demo en Pages](#demo-en-github-pages) · [Pruebas](#pruebas) · [Resultados](#prueba-de-una-hora) · [Referencia técnica](docs/REFERENCIA.md)
 
 ## Qué hace
 
@@ -70,15 +74,41 @@ npm --prefix frontend run dev
 
 Abre **http://127.0.0.1:5173**. El proxy de Vite envía `/api` al backend del puerto **8080**.
 
+## Demo en GitHub Pages
+
+La [demo pública](https://emanuelvanegas.github.io/plc-monitor/) utiliza el mismo panel con tres PLC virtuales. Permite cambiar escenarios, pausar equipos, configurar variables, explorar hasta 24 horas de historial simulado y descargar el intervalo visible en CSV.
+
+Los ajustes se guardan en el `localStorage` de cada navegador y no afectan a otros visitantes. **Reiniciar demo** recupera los tres ejemplos. El historial se genera para la sesión; no constituye un registro persistente de mediciones. Si el almacenamiento del navegador está bloqueado, funciona en memoria hasta cerrar o recargar la página.
+
+| Versión | Datos y ejecución | Almacenamiento |
+|---|---|---|
+| Local con Rust | Lecturas Modbus TCP desde PLC o simuladores; adquisición en segundo plano | Configuración, muestras y eventos en SQLite |
+| Pages | Simulación TypeScript en el navegador, sin backend ni conexión a PLC | Ajustes locales; historial y eventos de sesión |
+
+La demo admite hasta 10 PLC virtuales y exportaciones de hasta 100.000 lecturas por archivo. Si superas ese límite, acerca el intervalo antes de exportar. Las mediciones de rendimiento de Rust corresponden a la aplicación local.
+
+Para probar el mismo despliegue en tu máquina, sin iniciar Rust:
+
+```bash
+npm --prefix frontend ci
+npm --prefix frontend run build:demo
+npm --prefix frontend run preview:demo
+```
+
+Abre **http://127.0.0.1:4173/plc-monitor/**. Este modo compila en `frontend/dist-demo`; la compilación habitual sigue usando `frontend/dist`.
+
+El workflow publica Pages después de aprobar todas las pruebas en `main`. Los cambios de una solicitud de incorporación se comprueban sin desplegarse. Para una copia del repositorio con otro nombre, ajusta `base` en [vite.config.ts](frontend/vite.config.ts) y habilita Pages con **GitHub Actions** como origen.
+
 ## Pruebas
 
-**29 pruebas automatizadas**, además de las mediciones de cadencia y la prueba prolongada.
+**36 pruebas automatizadas**, además de las mediciones de cadencia y la prueba prolongada.
 
 | Suite | Casos | Qué comprueba |
 |---|---:|---|
 | [Unitarias Rust](src/domain.rs) y [temporizador](src/schedule.rs) | 7 | Conversión, validación, umbrales, cadencia y reconexión con reloj controlado |
 | [Integración TCP/API/SQLite](tests/system.rs) y [lecturas lentas](tests/cadence.rs) | 6 | Comunicación real con simuladores, aislamiento, timeout, persistencia, CSV y resumen del historial |
 | [Navegador](frontend/tests) | 14 | Configuración, recuperación, gráficas, zoom, selección de variables, exportación y móvil |
+| [Demo de Pages](frontend/demo-tests) | 7 | Simulación, picos y huecos, CSV, pausa, validación, almacenamiento local, zoom y visitantes aislados |
 | [Validadores Python](scripts/test_soak_test.py) | 2 | Calidad del CSV, pausa y aislamiento en el informe prolongado |
 
 Última verificación local: **13 de noviembre de 2026**. [Resultados y comandos completos](docs/PRUEBAS.md).
@@ -91,6 +121,8 @@ cargo build --locked
 npm --prefix frontend run build
 npm --prefix frontend exec -- playwright install chromium
 npm --prefix frontend run test:e2e
+npm --prefix frontend run build:demo
+npm --prefix frontend run test:demo
 python3 -m unittest discover -s scripts -p 'test_soak_test.py' -v
 ```
 
@@ -100,7 +132,7 @@ Para explorar el reporte HTML de las pruebas de navegador:
 npm --prefix frontend run test:report
 ```
 
-El [workflow de GitHub Actions](.github/workflows/checks.yml) ejecuta formato, Clippy, compilación y las tres suites. También guarda el reporte de Playwright como artefacto. Consulta las [ejecuciones de Checks](https://github.com/emanuelvanegas/plc-monitor/actions/workflows/checks.yml) para ver su estado en GitHub.
+El [workflow de GitHub Actions](.github/workflows/checks.yml) ejecuta formato, Clippy, compilación y todas las suites. También guarda ambos reportes de Playwright como artefacto. Consulta las [ejecuciones de Checks](https://github.com/emanuelvanegas/plc-monitor/actions/workflows/checks.yml) para ver su estado en GitHub.
 
 ## Prueba de una hora
 
