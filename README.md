@@ -7,10 +7,13 @@ Consulta variables en segundo plano, conserva su historial y revisa avisos, even
 **Rust · Tokio · Axum · SQLite · TypeScript · Vite**
 
 [![Checks](https://github.com/emanuelvanegas/plc-monitor/actions/workflows/checks.yml/badge.svg)](https://github.com/emanuelvanegas/plc-monitor/actions/workflows/checks.yml)
+[![Versión 0.1.0](https://img.shields.io/badge/versi%C3%B3n-v0.1.0-1A3C2B)](https://github.com/emanuelvanegas/plc-monitor/releases/tag/v0.1.0)
 
 ### [Abrir demo interactiva →](https://emanuelvanegas.github.io/plc-monitor/)
 
 Prueba el panel sin instalar nada: selecciona un PLC, explora sus variables, acerca la gráfica con la rueda y simula una interrupción. La demo de Pages genera datos en tu navegador; la aplicación local usa el backend Rust y Modbus TCP.
+
+**[Ver video de presentación (MP4, ~1 min)](https://github.com/emanuelvanegas/plc-monitor/releases/download/v0.1.0/plc-monitor-demo-v0.1.0.mp4)** · [Versión v0.1.0 y notas](https://github.com/emanuelvanegas/plc-monitor/releases/tag/v0.1.0)
 
 ![Panel de PLC Monitor con equipos, variables, tendencia y eventos](docs/screenshots/desktop.png)
 
@@ -168,6 +171,8 @@ Cada PLC conserva su conexión y calendario de sondeo. Las lecturas del mismo eq
 ## Alcance
 
 Versión **0.1.0**, orientada a monitoreo local y lectura de registros. La validación disponible utiliza simuladores Modbus TCP. Quedan pendientes la medición de capacidad y las pruebas con un PLC físico; el [roadmap](docs/ROADMAP.md) recoge el trabajo siguiente.
+
+El [historial de versiones](CHANGELOG.md) resume los cambios publicados.
 
 Consulta la [referencia técnica](docs/REFERENCIA.md) para mapas de registros, límites, retención y API.
 
